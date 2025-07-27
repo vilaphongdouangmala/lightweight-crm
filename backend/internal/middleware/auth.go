@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -101,4 +102,45 @@ func JWT(config JWTConfig, logger *zap.SugaredLogger) gin.HandlerFunc {
 		c.Set("role", claims.Role)
 		c.Next()
 	}
+}
+
+func GenerateToken(userId, role string, config JWTConfig) (string, error) {
+	now := time.Now()
+	claims := &JWTClaims{
+		UserId: userId,
+		Role:   role,
+		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:    config.Issuer,
+			Audience:  config.Audience,
+			IssuedAt:  jwt.NewNumericDate(now),
+			ExpiresAt: jwt.NewNumericDate(now.Add(config.TokenExpiration)),
+			Subject:   userId,
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString([]byte(config.Secret))
+	if err != nil {
+		return "", err
+	}
+	return tokenString, nil
+}
+
+func GenerateRefreshToken(userId string, config JWTConfig) (string, error) {
+	now := time.Now()
+	claims := jwt.RegisteredClaims{
+		Issuer:    config.Issuer,
+		Subject:   userId,
+		IssuedAt:  jwt.NewNumericDate(now),
+		ExpiresAt: jwt.NewNumericDate(now.Add(config.RefreshExpiration)),
+		ID:        fmt.Sprintf("refresh_%d", now.Unix()),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString([]byte(config.Secret))
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
 }
