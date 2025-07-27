@@ -5,6 +5,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/vilaphongdouangmala/lightweight-crm/backend/internal/config"
+	"github.com/vilaphongdouangmala/lightweight-crm/backend/internal/middleware"
 	"go.uber.org/zap"
 )
 
@@ -17,6 +18,10 @@ func SetupRouter(cfg *config.Config, logger *zap.SugaredLogger) *gin.Engine {
 
 	// // Create rate limiter with default configuration
 	// rateLimiter := middleware.NewRateLimiter(logger)
+
+	// Add middlewares
+	router.Use(middleware.Logger(logger))
+	router.Use(middleware.CORS())
 
 	// API v1 routes
 	v1 := router.Group("/api/v1")
