@@ -37,3 +37,11 @@ _test.go
 # automatically, and can be safely ignored.
 
 vendor
+
+# env
+
+.env
+
+# DS_Store
+
+.DS_Store
