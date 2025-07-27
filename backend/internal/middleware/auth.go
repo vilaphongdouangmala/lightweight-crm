@@ -144,3 +144,52 @@ func GenerateRefreshToken(userId string, config JWTConfig) (string, error) {
 
 	return tokenString, nil
 }
+
+func RequireRole(roles ...string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userRole, exists := c.Get("role")
+		if !exists {
+			c.AbortWithStatusJSON(http.StatusForbidden, ErrorResponse{
+				Success: false,
+				Error: &ErrorData{
+					Code:    CodeForbidden,
+					Message: "You do not have permission to access this resource",
+				},
+			})
+			return
+		}
+
+		roleString, ok := userRole.(string)
+		if !ok {
+			c.AbortWithStatusJSON(http.StatusForbidden, ErrorResponse{
+				Success: false,
+				Error: &ErrorData{
+					Code:    CodeForbidden,
+					Message: "You do not have permission to access this resource",
+				},
+			})
+			return
+		}
+
+		hasRole := false
+		for _, role := range roles {
+			if roleString == role {
+				hasRole = true
+				break
+			}
+		}
+
+		if !hasRole {
+			c.AbortWithStatusJSON(http.StatusForbidden, ErrorResponse{
+				Success: false,
+				Error: &ErrorData{
+					Code:    CodeForbidden,
+					Message: "You do not have permission to access this resource",
+				},
+			})
+			return
+		}
+
+		c.Next()
+	}
+}
