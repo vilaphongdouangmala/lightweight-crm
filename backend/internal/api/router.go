@@ -21,6 +21,7 @@ func SetupRouter(cfg *config.Config, logger *zap.SugaredLogger) *gin.Engine {
 
 	// Add middlewares
 	router.Use(middleware.Logger(logger))
+	router.Use(middleware.ErrorHandler(logger))
 	router.Use(middleware.CORS())
 
 	// API v1 routes
