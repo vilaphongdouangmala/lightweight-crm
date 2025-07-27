@@ -90,8 +90,8 @@ const (
 	CodeInternalServerError = "INTERNAL_SERVER_ERROR"
 )
 
-// BadRequestError creates a bad request error
-func BadRequestError(message string, details interface{}) *CustomError {
+// NewBadRequestError creates a bad request error
+func NewBadRequestError(message string, details interface{}) *CustomError {
 	return &CustomError{
 		Code:       CodeBadRequest,
 		Message:    message,
@@ -100,8 +100,8 @@ func BadRequestError(message string, details interface{}) *CustomError {
 	}
 }
 
-// UnauthorizedError creates an unauthorized error
-func UnauthorizedError(message string) *CustomError {
+// NewUnauthorizedError creates an unauthorized error
+func NewUnauthorizedError(message string) *CustomError {
 	return &CustomError{
 		Code:       CodeUnauthorized,
 		Message:    message,
@@ -109,8 +109,8 @@ func UnauthorizedError(message string) *CustomError {
 	}
 }
 
-// ForbiddenError creates a forbidden error
-func ForbiddenError(message string) *CustomError {
+// NewForbiddenError creates a forbidden error
+func NewForbiddenError(message string) *CustomError {
 	return &CustomError{
 		Code:       CodeForbidden,
 		Message:    message,
@@ -118,8 +118,8 @@ func ForbiddenError(message string) *CustomError {
 	}
 }
 
-// NotFoundError creates a not found error
-func NotFoundError(message string) *CustomError {
+// NewNotFoundError creates a not found error
+func NewNotFoundError(message string) *CustomError {
 	return &CustomError{
 		Code:       CodeNotFound,
 		Message:    message,
@@ -127,8 +127,8 @@ func NotFoundError(message string) *CustomError {
 	}
 }
 
-// InternalServerError creates an internal server error
-func InternalServerError(message string) *CustomError {
+// NewInternalServerError creates an internal server error
+func NewInternalServerError(message string) *CustomError {
 	return &CustomError{
 		Code:       CodeInternalServerError,
 		Message:    message,
