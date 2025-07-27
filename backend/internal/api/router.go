@@ -17,6 +17,7 @@ func SetupRouter(cfg *config.Config, logger *zap.SugaredLogger) *gin.Engine {
 	router := gin.New()
 
 	// Add middlewares
+	router.Use(gin.Recovery())
 	router.Use(middleware.Logger(logger))
 	router.Use(middleware.ErrorHandler(logger))
 	router.Use(middleware.NewRateLimiter(logger))
@@ -29,13 +30,13 @@ func SetupRouter(cfg *config.Config, logger *zap.SugaredLogger) *gin.Engine {
 		public := v1.Group("/")
 		SetupPublicRoutes(public, cfg, logger)
 
-		// // Create JWT config
-		// jwtConfig := middleware.DefaultJWTConfig()
-		// jwtConfig.Secret = cfg.Auth.JWTSecret
+		// Create JWT config
+		jwtConfig := middleware.DefaultJWTConfig()
+		jwtConfig.Secret = cfg.Auth.JWTSecret
 
 		// Protected routes
 		protected := v1.Group("/")
-		// protected.Use(middleware.JWT(jwtConfig, logger))
+		protected.Use(middleware.JWT(jwtConfig, logger))
 		SetupProtectedRoutes(protected, cfg, logger)
 	}
 
