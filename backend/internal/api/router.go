@@ -16,12 +16,10 @@ func SetupRouter(cfg *config.Config, logger *zap.SugaredLogger) *gin.Engine {
 	// Create router
 	router := gin.New()
 
-	// // Create rate limiter with default configuration
-	// rateLimiter := middleware.NewRateLimiter(logger)
-
 	// Add middlewares
 	router.Use(middleware.Logger(logger))
 	router.Use(middleware.ErrorHandler(logger))
+	router.Use(middleware.NewRateLimiter(logger))
 	router.Use(middleware.CORS())
 
 	// API v1 routes
