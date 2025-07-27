@@ -1,0 +1,39 @@
+# Go
+#
+# The following files and directories can be safely ignored
+# by Git.  They are not meant to be committed to the repository.
+
+# Build
+#
+# Go build creates a bunch of files that are not meant to be
+# committed to the repository.  These files are generated
+# automatically, and can be safely ignored.
+
+*.exe
+*.test
+*.prof
+
+# IDE
+#
+# Many IDEs create configuration files that are not meant to be
+# committed to the repository.  These files are generated
+# automatically, and can be safely ignored.
+
+.idea
+.vscode
+
+# Test
+#
+# Go test creates a bunch of files that are not meant to be
+# committed to the repository.  These files are generated
+# automatically, and can be safely ignored.
+
+_test.go
+
+# Vendor
+#
+# Go get creates a bunch of files that are not meant to be
+# committed to the repository.  These files are generated
+# automatically, and can be safely ignored.
+
+vendor
