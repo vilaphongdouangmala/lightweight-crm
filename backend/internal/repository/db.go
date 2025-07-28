@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/vilaphongdouangmala/lightweight-crm/backend/internal/config"
-	"github.com/vilaphongdouangmala/lightweight-crm/backend/internal/models"
+	"github.com/vilaphongdouangmala/lightweight-crm/backend/internal/domain"
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -66,7 +66,7 @@ func (d *Database) AutoMigrate() error {
 	d.logger.Info("Running database migrations")
 
 	err := d.DB.AutoMigrate(
-		&models.User{},
+		&domain.User{},
 	)
 
 	if err != nil {
